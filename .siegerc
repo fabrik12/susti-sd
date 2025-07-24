@@ -1,0 +1,32 @@
+# Siege configuration file
+verbose = false
+color = on
+quiet = false
+show-logfile = true
+logging = true
+gmethod = HEAD
+parser = true
+nofollow = ad.doubleclick.net
+nofollow = pagead2.googlesyndication.com
+nofollow = googlesyndication.com
+nofollow = google-analytics.com
+nofollow = fonts.googleapis.com
+logfile = $(HOME)/siege.log
+parselog = $(HOME)/siege_parser.log
+htmlfile = $(HOME)/siege.html
+protocol = HTTP/1.1
+chunked = true
+cache = false
+connection = close
+concurrent = 25
+time = 1M
+delay = 0.0
+timeout = 30
+failures = 1024
+internet = false
+benchmark = false
+accept-encoding = gzip, deflate
+url-escaping = true
+spinner = true
+# Set content-type for POST requests
+header = Content-Type: application/json
