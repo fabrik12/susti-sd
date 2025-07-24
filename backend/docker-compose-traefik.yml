@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # El servicio de Traefik que actúa como proxy
+  traefik:
+    image: traefik:v2.11 
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"      # Puerto para el tráfico web
+      - "8080:8080"  # Dashboard web de Traefik (opcional)
+    volumes:
+      # Montar Traefik para escuchar los eventos de Docker y autoconfigurarse
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  # El API, ahora con etiquetas para que Traefik la descubra
+  backend-api:
+    build: .
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fastapi.rule=Host(`localhost`)"
+      - "traefik.http.routers.fastapi.entrypoints=web"
+      - "traefik.http.services.fastapi.loadbalancer.server.port=8000"

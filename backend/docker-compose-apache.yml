@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  backend-api:
+    build: .
+    container_name: backend_api_service
+    networks:
+      - app_net
+
+  web-server-apache:
+    image: httpd:2.4
+    container_name: apache_proxy_service
+    ports:
+      - "80:80"
+    volumes:
+      - ./httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+    depends_on:
+      - backend-api
+    networks:
+      - app_net
+
+networks:
+  app_net:
+
